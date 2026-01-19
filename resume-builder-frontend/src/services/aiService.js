@@ -1,5 +1,7 @@
 export const rewriteResumeAI = async (payload) => {
-  const res = await fetch("http://localhost:5000/api/ai/rewrite", {
+  const API = process.env.REACT_APP_API_URL;
+
+  const res = await fetch(`${API}/api/ai/rewrite`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
@@ -12,6 +14,7 @@ export const rewriteResumeAI = async (payload) => {
   return res.json();
 };
 
-  
+  console.log(process.env.REACT_APP_API_URL);
+
 
  //this function is a frontend api helper used to call rewrite resume ai backend
