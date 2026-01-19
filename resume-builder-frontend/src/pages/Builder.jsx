@@ -174,7 +174,7 @@ const handleAIRewrite = async () => {
 
     const data = await rewriteResumeAI(payload);
 
-    setAiPreview(data.preview); // backend response IS the resume
+    setAiPreview(data); // backend response IS the resume
   } catch (err) {
     console.error(err);
     alert("AI rewrite failed");
