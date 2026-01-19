@@ -1,5 +1,5 @@
 ## Resume Builder Web Application
-A frontend resume builder application that allows users to create, preview, customize, and download professional resumes in PDF format.
+A responsive resume builder application that allows users to create, preview, customize, and download professional resumes in PDF format.
 
 ## Tech Stack
 
