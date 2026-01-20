@@ -1,21 +1,30 @@
 export const buildAIPayload = (resume) => ({
-  summary: resume.summary?.trim(),
+  summary: resume.summary?.trim() || "",
 
-  experience: resume.experience?.map(exp => ({
-    company: exp.company,
-    role: exp.role,
-    duration: exp.duration,
-    description: exp.description
-  })),
+  experience: Array.isArray(resume.experience)
+    ? resume.experience.map(exp => ({
+        ...exp,
+        ...(exp.description?.trim()
+          ? { description: exp.description.trim() } // rewrite only if written
+          : {}) // else don't send description at all
+      }))
+    : [],
 
-  projects: resume.projects?.map(proj => ({
-    title: proj.title,
-    technology: proj.technology,
-    description: proj.description
-  })),
+  projects: Array.isArray(resume.projects)
+    ? resume.projects.map(proj => ({
+        ...proj,
+        ...(proj.description?.trim()
+          ? { description: proj.description.trim() }
+          : {})
+      }))
+    : [],
 
-  customSections: resume.customSections?.map(sec => ({
-    title: sec.title,
-    content: sec.content
-  }))
+  customSections: Array.isArray(resume.customSections)
+    ? resume.customSections.map(sec => ({
+        ...sec,
+        ...(sec.content?.trim()
+          ? { content: sec.content.trim() }
+          : {})
+      }))
+    : []
 });
