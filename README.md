@@ -1,19 +1,23 @@
-<<<<<<< HEAD
-# Resume Builder Web Application
-
-A frontend resume builder application that allows users to create, preview, customize, and download professional resumes in PDF format.
+## Resume Builder Web Application
+A responsive resume builder application that allows users to create, preview, customize, and download professional resumes in PDF format.
 
 ## Tech Stack
-- React.js, HTML, CSS, Bootstrap
+
+- Frontend: React.js, HTML, CSS, Bootstrap
+- Backend: Node.js, Express.js
+- Other Libraries: dnd-kit (drag-and-drop), html2pdf.js
+- Deployment: Frontend on Vercel, Backend on Render
 
 
 ## Features
+
 - Interactive resume form with real-time preview
-- Multiple professional resume templates 
+- Multiple professional resume templates
 - Drag-and-drop section reordering using dnd-kit
 - Custom sections support – users can add sections based on their needs
 - Light / Dark mode for better accessibility
 - Export resume as downloadable PDF
+- AI Resume Rewrite: Automatically enhance summary, description of experience, projects, and custom sections with AI-powered rewriting; preview changes before applying
   
 =======
 # Getting Started with Create React App
