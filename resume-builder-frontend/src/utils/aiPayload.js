@@ -1,5 +1,6 @@
-export const buildAIPayload = (resume) => ({
-  summary: resume.summary?.trim() || "",
+//frontend helper function
+export const buildAIPayload = (resume) => ({                           //this file - tells what to send to ai
+  summary: resume.summary?.trim() || "",                       
 
   experience: Array.isArray(resume.experience)
     ? resume.experience.map(exp => ({

@@ -20,7 +20,7 @@ const AIRewriteModal = ({ preview, onApply, onClose }) => {
           </div>
 
           <div className="modal-body">
-            <pre className="bg-black text-success p-3 rounded">
+            <pre className="bg-black text-success p-3 rounded">     {/* preserves formatting- new line and spacing- perfect for json preview*/}
               {JSON.stringify(preview, null, 2)}
             </pre>
           </div>

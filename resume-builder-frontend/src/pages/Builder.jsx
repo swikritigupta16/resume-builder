@@ -62,15 +62,19 @@ const initialResume = {
    
   });
 
+   useEffect(() => {                                             //saving data if any
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(resume));
+}, [resume]);
+
 //ai state
   const [aiPreview, setAiPreview] = useState(null);  //rewritten version
   const [aiLoading, setAiLoading] = useState(false); //loader controler
 
-  // AI handlers
-  const applyAIRewrite = () => {
-  setResume(prev => ({
-    ...prev,
-    ...aiPreview   // only AI-generated fields overwrite
+  // AI handlers - this fn runs when user click on apply changes
+  const applyAIRewrite = () => {      
+  setResume(prev => ({       //prev => functional update
+    ...prev,               // ... : spread operator
+    ...aiPreview   // only AI-generated fields overwrite               
   }));
 
   localStorage.setItem(
@@ -81,11 +85,6 @@ const initialResume = {
   setAiPreview(null);
 };
 
-
-
-  useEffect(() => {                                             //saving data if any
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(resume));
-}, [resume]);
 
 
 // DND kit - Drag and drop state 
@@ -164,18 +163,18 @@ const downloadPDF = async () => {
   }
 };
 
-//ai rewrite function
+//ai rewrite function - triggered when user clicks “AI Rewrite” button
 const handleAIRewrite = async () => {
   try {
-    setAiLoading(true);
+    setAiLoading(true);  //disable rewrite ai button
 
     const payload = buildAIPayload(resume);
   
-
-    const data = await rewriteResumeAI(payload);
+    const data = await rewriteResumeAI(payload);  //Calls API function (aiServices.js), Sends POST request to backend /api/ai/rewrite
 
     setAiPreview(data); // backend response IS the resume
-  } catch (err) {
+  } 
+    catch (err) {
     console.error(err);
     alert("AI rewrite failed");
   } finally {

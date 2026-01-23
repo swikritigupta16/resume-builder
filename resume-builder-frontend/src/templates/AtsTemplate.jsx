@@ -122,7 +122,7 @@ case "skills":
             {resume.certifications.map((cert, i) => (
               <div key={i} className="mb-2">
                 <strong>{cert.name}</strong>
-                {cert.organization && <> – {cert.organization}</>}
+                {cert.organization && <> || {cert.organization}</>}
                 {cert.year && <> ({cert.year})</>}
               </div>
             ))}
