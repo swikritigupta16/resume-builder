@@ -64,24 +64,26 @@ function AtsTemplate({ resume, sections = [] }) {
         );
 
       /* EDUCATION */
-      case "education":
-        return resume.education?.some(
-          edu => edu.degree || edu.institute || edu.year || edu.grade
-        ) && (
-          <div className="resume-section">
-            <SectionHeader title="Education" />
-            {renderBullets(
-              resume.education.map(edu => {
-                let line = "";
-                if (edu.degree) line += edu.degree;
-                if (edu.institute) line += line ? ` – ${edu.institute}` : edu.institute;
-                if (edu.year) line += line ? ` (${edu.year})` : edu.year;
-                if (edu.grade) line += `: Grade ${edu.grade}`;
-                return line;
-              })
-            )}
-          </div>
-        );
+case "education":
+  return resume.education?.some(
+    edu => edu.degree || edu.institute || edu.year || edu.grade
+  ) && (
+    <div className="resume-section">
+      <SectionHeader title="Education" />
+      <div style={{ display: "flex", alignItems: "flex-start", marginBottom: "8px" }}>
+        <span style={{ marginRight: "8px", lineHeight: "1.4" }}>•</span>
+        <div style={{ flex: 1 }}>
+          {resume.education.map((edu, i) => (
+            <div key={i} className="mb-2">
+              <div><strong>{edu.degree}</strong> – {edu.institute} ({edu.year})</div>
+              {edu.grade && <div className="small">Grade: {edu.grade}</div>}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
 
       /* SKILLS */
       case "skills":
@@ -109,22 +111,24 @@ function AtsTemplate({ resume, sections = [] }) {
         );
 
       /* CERTIFICATIONS */
-      case "certifications":
-        return resume.certifications?.length > 0 && (
-          <div className="resume-section">
-            <SectionHeader title="Certifications & Achievements" />
-            {renderBullets(
-              resume.certifications
-                .filter(cert => cert.name || cert.organization)
-                .map(cert => {
-                  let line = cert.name || "";
-                  if (cert.organization) line += line ? ` | ${cert.organization}` : cert.organization;
-                  if (cert.year) line += ` (${cert.year})`;
-                  return line;
-                })
-            )}
-          </div>
-        );
+case "certifications":
+  return resume.certifications?.length > 0 && (
+    <div className="resume-section">
+      <SectionHeader title="Certifications & Achievements" />
+      {renderBullets(
+        resume.certifications
+          .filter(cert => cert.name || cert.organization)
+          .map(cert => {
+            let line = "";
+            if (cert.name) line += `<strong>${cert.name}</strong>`;
+            if (cert.organization) line += cert.organization ? ` | ${cert.organization}` : "";
+            if (cert.year) line += cert.year ? ` (${cert.year})` : "";
+            return line;
+          })
+      )}
+    </div>
+  );
+
 
       /* CUSTOM SECTIONS */
       case "custom":
