@@ -81,7 +81,7 @@ case "skills":
           const colonIndex = skill.indexOf(":");
 
           return (
-            <div key={index} className="col-12 col-md-6 mb-2">
+            <div key={index} className="col-12 mb-2">
               • {colonIndex !== -1 ? (
                 <>
                   <strong>{skill.slice(0, colonIndex)}:</strong>
