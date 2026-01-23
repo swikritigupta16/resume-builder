@@ -130,7 +130,8 @@ case "skills":
         );
 
       /* CUSTOM SECTIONS */
- case "custom":
+ /* CUSTOM SECTIONS */
+case "custom":
   return resume.customSections.some(
     sec => sec.title?.trim() || sec.content?.trim()
   ) && (
@@ -140,12 +141,20 @@ case "skills":
         .map(sec => (
           <div key={sec.id} className="mb-2">
             <SectionHeader title={sec.title} />
-            <p>{sec.content}</p>
+
+            {/* Render content as bullet points */}
+            <ul className="mb-1">
+              {sec.content
+                .split("\n")
+                .filter(line => line.trim())
+                .map((line, index) => (
+                  <li key={index}>{line}</li>
+                ))}
+            </ul>
           </div>
         ))}
     </div>
   );
-
 
       default:
         return null;
