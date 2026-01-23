@@ -7,17 +7,39 @@ function AtsTemplate({ resume, sections = [] }) {
     </div>
   );
 
+  const renderBullets = (items) => (
+    <div className="row">
+      {items.map((item, index) => {
+        const colonIndex = item.indexOf(":");
+        return (
+          <div
+            key={index}
+            className="col-12 mb-1"
+            style={{ lineHeight: "1.3" }}
+          >
+            • {colonIndex !== -1 ? (
+              <>
+                <strong>{item.slice(0, colonIndex)}:</strong>
+                {item.slice(colonIndex + 1)}
+              </>
+            ) : (
+              item
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+
   const renderSection = (section) => {
     switch (section) {
 
-      /* SUMMARY */
+      /* SUMMARY (paragraph only) */
       case "summary":
         return resume.summary && (
           <div className="resume-section">
             <SectionHeader title="Summary" />
-            <ul className="mb-1">
-              <li>{resume.summary}</li>
-            </ul>
+            <p align="justify">{resume.summary}</p>
           </div>
         );
 
@@ -28,18 +50,16 @@ function AtsTemplate({ resume, sections = [] }) {
         ) && (
           <div className="resume-section">
             <SectionHeader title="Work Experience" />
-            <ul className="mb-1">
-              {resume.experience.map((exp, i) => (
-                <li key={i} className="mb-1">
-                  <strong>{exp.role}</strong> – {exp.company} ({exp.duration})
-                  {exp.description && (
-                    <ul className="mb-0">
-                      <li>{exp.description}</li>
-                    </ul>
-                  )}
-                </li>
-              ))}
-            </ul>
+            {renderBullets(
+              resume.experience.map(exp => {
+                let line = "";
+                if (exp.role) line += `${exp.role}`;
+                if (exp.company) line += line ? ` – ${exp.company}` : exp.company;
+                if (exp.duration) line += line ? ` (${exp.duration})` : exp.duration;
+                if (exp.description) line += `: ${exp.description}`;
+                return line;
+              })
+            )}
           </div>
         );
 
@@ -50,14 +70,16 @@ function AtsTemplate({ resume, sections = [] }) {
         ) && (
           <div className="resume-section">
             <SectionHeader title="Education" />
-            <ul className="mb-1">
-              {resume.education.map((edu, i) => (
-                <li key={i} className="mb-1">
-                  <strong>{edu.degree}</strong> – {edu.institute} ({edu.year})
-                  {edu.grade && <div className="small">Grade: {edu.grade}</div>}
-                </li>
-              ))}
-            </ul>
+            {renderBullets(
+              resume.education.map(edu => {
+                let line = "";
+                if (edu.degree) line += edu.degree;
+                if (edu.institute) line += line ? ` – ${edu.institute}` : edu.institute;
+                if (edu.year) line += line ? ` (${edu.year})` : edu.year;
+                if (edu.grade) line += `: Grade ${edu.grade}`;
+                return line;
+              })
+            )}
           </div>
         );
 
@@ -66,21 +88,7 @@ function AtsTemplate({ resume, sections = [] }) {
         return resume.skills?.length > 0 && (
           <div className="resume-section">
             <SectionHeader title="Key Skills" />
-            <ul className="mb-1">
-              {resume.skills.map((skill, index) => {
-                const colonIndex = skill.indexOf(":");
-                return (
-                  <li key={index}>
-                    {colonIndex !== -1 ? (
-                      <>
-                        <strong>{skill.slice(0, colonIndex)}:</strong>
-                        {skill.slice(colonIndex + 1)}
-                      </>
-                    ) : skill}
-                  </li>
-                );
-              })}
-            </ul>
+            {renderBullets(resume.skills)}
           </div>
         );
 
@@ -89,15 +97,14 @@ function AtsTemplate({ resume, sections = [] }) {
         return resume.projects?.some(proj => proj.title || proj.description) && (
           <div className="resume-section">
             <SectionHeader title="Projects" />
-            <ul className="mb-1">
-              {resume.projects.map((proj, i) => (
-                <li key={i} className="mb-1">
-                  <strong>{proj.title}</strong>
-                  {proj.technology && <> – {proj.technology}</>}
-                  {proj.description && <div>{proj.description}</div>}
-                </li>
-              ))}
-            </ul>
+            {renderBullets(
+              resume.projects.map(proj => {
+                let line = proj.title || "";
+                if (proj.technology) line += line ? ` – ${proj.technology}` : proj.technology;
+                if (proj.description) line += `: ${proj.description}`;
+                return line;
+              })
+            )}
           </div>
         );
 
@@ -106,17 +113,16 @@ function AtsTemplate({ resume, sections = [] }) {
         return resume.certifications?.length > 0 && (
           <div className="resume-section">
             <SectionHeader title="Certifications & Achievements" />
-            <ul className="mb-1">
-              {resume.certifications
+            {renderBullets(
+              resume.certifications
                 .filter(cert => cert.name || cert.organization)
-                .map((cert, i) => (
-                  <li key={i}>
-                    <strong>{cert.name}</strong>
-                    {cert.organization && <> | {cert.organization}</>}
-                    {cert.year && <> ({cert.year})</>}
-                  </li>
-                ))}
-            </ul>
+                .map(cert => {
+                  let line = cert.name || "";
+                  if (cert.organization) line += line ? ` | ${cert.organization}` : cert.organization;
+                  if (cert.year) line += ` (${cert.year})`;
+                  return line;
+                })
+            )}
           </div>
         );
 
@@ -131,26 +137,11 @@ function AtsTemplate({ resume, sections = [] }) {
               .map(sec => (
                 <div key={sec.id} className="mb-2">
                   <SectionHeader title={sec.title} />
-                  <ul className="mb-1">
-                    {sec.content
+                  {renderBullets(
+                    sec.content
                       .split("\n")
                       .filter(line => line.trim())
-                      .map((line, index) => {
-                        const colonIndex = line.indexOf(":");
-                        return (
-                          <li key={index}>
-                            {colonIndex !== -1 ? (
-                              <>
-                                <strong>{line.slice(0, colonIndex)}:</strong>
-                                {line.slice(colonIndex + 1)}
-                              </>
-                            ) : (
-                              line
-                            )}
-                          </li>
-                        );
-                      })}
-                  </ul>
+                  )}
                 </div>
               ))}
           </div>
