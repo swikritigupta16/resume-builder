@@ -70,19 +70,21 @@ case "education":
   ) && (
     <div className="resume-section">
       <SectionHeader title="Education" />
-      <div style={{ display: "flex", alignItems: "flex-start", marginBottom: "8px" }}>
-        <span style={{ marginRight: "8px", lineHeight: "1.4" }}>•</span>
-        <div style={{ flex: 1 }}>
-          {resume.education.map((edu, i) => (
-            <div key={i} className="mb-2">
-              <div><strong>{edu.degree}</strong> – {edu.institute} ({edu.year})</div>
-              {edu.grade && <div className="small">Grade: {edu.grade}</div>}
+      {resume.education.map((edu, i) => (
+        <div key={i} className="mb-2">
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+            <div>
+              • <strong>{edu.degree}</strong>
             </div>
-          ))}
+            {edu.year && <div><strong>{edu.year}</strong></div>}
+          </div>
+          <div>{edu.institute}</div>
+          {edu.grade && <div className="small">Grade: {edu.grade}</div>}
         </div>
-      </div>
+      ))}
     </div>
   );
+
 
 
       /* SKILLS */
@@ -95,37 +97,52 @@ case "education":
         );
 
       /* PROJECTS */
-      case "projects":
-        return resume.projects?.some(proj => proj.title || proj.description) && (
-          <div className="resume-section">
-            <SectionHeader title="Projects" />
-            {renderBullets(
-              resume.projects.map(proj => {
-                let line = proj.title || "";
-                if (proj.technology) line += line ? ` – ${proj.technology}` : proj.technology;
-                if (proj.description) line += `: ${proj.description}`;
-                return line;
-              })
-            )}
+case "projects":
+  return resume.projects?.some(proj => proj.title || proj.description) && (
+    <div className="resume-section">
+      <SectionHeader title="Projects" />
+      {resume.projects.map((proj, i) => (
+        <div key={i} className="mb-2">
+          <div style={{ display: "flex", alignItems: "baseline" }}>
+            <span>•</span>&nbsp;
+            <strong>{proj.title}</strong>
+            {proj.technology && <> – {proj.technology}</>}
           </div>
-        );
+          {proj.description && <div>{proj.description}</div>}
+        </div>
+      ))}
+    </div>
+  );
+
 
       /* CERTIFICATIONS */
+    
 case "certifications":
   return resume.certifications?.length > 0 && (
     <div className="resume-section">
       <SectionHeader title="Certifications & Achievements" />
-      {renderBullets(
-        resume.certifications
+      <div>
+        {resume.certifications
           .filter(cert => cert.name || cert.organization)
-          .map(cert => {
-            let line = "";
-            if (cert.name) line += `<strong>${cert.name}</strong>`;
-            if (cert.organization) line += cert.organization ? ` | ${cert.organization}` : "";
-            if (cert.year) line += cert.year ? ` (${cert.year})` : "";
-            return line;
-          })
-      )}
+          .map((cert, index) => (
+            <div
+              key={index}
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                marginBottom: "4px",
+                lineHeight: "1.4"
+              }}
+            >
+              <span style={{ marginRight: "8px", lineHeight: "1.4" }}>•</span>
+              <div style={{ flex: 1 }}>
+                <strong>{cert.name}</strong>
+                {cert.organization && <> | {cert.organization}</>}
+                {cert.year && <> ({cert.year})</>}
+              </div>
+            </div>
+          ))}
+      </div>
     </div>
   );
 
@@ -166,24 +183,31 @@ case "certifications":
       }}
     >
       {/* HEADER */}
-      <div className="text-center mb-3">
-        <h2 className="fw-bold text-primary mb-1" style={{ letterSpacing: "1px" }}>
-          {resume.name || "YOUR NAME"}
-        </h2>
+<div className="text-center mb-3">
+  <h2 className="fw-bold text-primary mb-1" style={{ letterSpacing: "1px" }}>
+    {resume.name || "YOUR NAME"}
+  </h2>
 
-        {resume.title && <div className="mb-2">{resume.title}</div>}
+  {resume.title && <div className="mb-2">{resume.title}</div>}
 
-        <div className="mb-1">
-          {resume.address && <span>{resume.address}</span>}
-          {resume.phone && <span> | Phone: {resume.phone}</span>}
-          {resume.email && <span> | Email: {resume.email}</span>}
-        </div>
+  {/* Address / Phone / Email */}
+  <div className="d-flex flex-wrap justify-content-center mb-1">
+    {resume.address && <div className="me-3">{resume.address}</div>}
+    {resume.phone && <div className="me-3">Phone: {resume.phone}</div>}
+    {resume.email && <div className="me-3">Email: {resume.email}</div>}
+  </div>
 
-        <div>
-          {resume.profiles?.linkedin && <span>LinkedIn: {resume.profiles.linkedin}</span>}
-          {resume.profiles?.github && <span> | GitHub: {resume.profiles.github}</span>}
-        </div>
-      </div>
+  {/* LinkedIn / GitHub */}
+  <div className="d-flex flex-wrap justify-content-center">
+    {resume.profiles?.linkedin && (
+      <div className="me-3">LinkedIn: {resume.profiles.linkedin}</div>
+    )}
+    {resume.profiles?.github && (
+      <div className="me-3">GitHub: {resume.profiles.github}</div>
+    )}
+  </div>
+</div>
+
 
       {/* REORDERABLE SECTIONS */}
       {sections.map(section => (
