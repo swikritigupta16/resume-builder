@@ -70,8 +70,7 @@ case "education":
     </div>
   );
 
-     /* SKILLS */
-case "skills":
+    case "skills":
   return resume.skills?.length > 0 && (
     <div className="resume-section">
       <SectionHeader title="Key Skills" />
@@ -81,7 +80,11 @@ case "skills":
           const colonIndex = skill.indexOf(":");
 
           return (
-            <div key={index} className="col-12 mb-2">
+            <div
+              key={index}
+              className="col-12 mb-1"
+              style={{ lineHeight: "1.3" }}
+            >
               • {colonIndex !== -1 ? (
                 <>
                   <strong>{skill.slice(0, colonIndex)}:</strong>
@@ -96,7 +99,6 @@ case "skills":
       </div>
     </div>
   );
-
 
 
      /* PROJECTS */
@@ -192,30 +194,42 @@ case "custom":
     >
 
       {/* HEADER */}
-      <div className="text-center mb-3">
+<div className="text-center mb-3">
 
-        <h2 className="fw-bold text-primary mb-1" style={{ letterSpacing: "1px" }}>
-          {resume.name || "YOUR NAME"}
-        </h2>
+  <h2
+    className="fw-bold text-primary mb-1"
+    style={{ letterSpacing: "1px" }}
+  >
+    {resume.name || "YOUR NAME"}
+  </h2>
 
-        {resume.title && (
-          <div className="fst-arial mb-2">
-            {resume.title}
-          </div>
-        )}
+  {resume.title && (
+    <div className="mb-2">
+      {resume.title}
+    </div>
+  )}
 
-        <>
-          {resume.address}
-          {resume.phone && <> | {resume.phone}</>}
-          {resume.email && <> | {resume.email}</>}
-        </>
+  <div className="mb-1">
+    {resume.address && <span>{resume.address}</span>}
+    {resume.phone && <span> | Phone: {resume.phone}</span>}
+    {resume.email && <span> | Email: {resume.email}</span>}
+  </div>
 
-        <div className="medium">
-          {resume.profiles?.linkedin && <> {resume.profiles.linkedin} | </>}
-          {resume.profiles?.github && <> {resume.profiles.github}</>}
-        </div>
+  <div>
+    {resume.profiles?.linkedin && (
+      <span>
+        LinkedIn: {resume.profiles.linkedin}
+      </span>
+    )}
+    {resume.profiles?.github && (
+      <span>
+        {" "} | GitHub: {resume.profiles.github}
+      </span>
+    )}
+  </div>
 
-      </div>
+</div>
+
 
       {/* REORDERABLE SECTIONS */}
       {sections.map(section => (
