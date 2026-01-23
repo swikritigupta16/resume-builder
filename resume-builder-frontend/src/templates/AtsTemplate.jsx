@@ -49,32 +49,27 @@ function AtsTemplate({ resume, sections = [] }) {
         );
 
       /* EDUCATION */
-      case "education":
-        return resume.education?.some(
-          edu => edu.degree || edu.institute || edu.year || edu.grade
-        ) && (
-          <div className="resume-section">
-            <SectionHeader title="Education" />
-            {resume.education.map((edu, i) => (
-              <div key={i} className="mb-2">
-
-                <div className="d-flex justify-content-between fw-semibold">
-                  <span>{edu.degree}</span>
-                  <span>{edu.year}</span>
-                </div>
-
-                <div>{edu.institute}</div>
-
-                {edu.grade && (
-                  <div className="small">
-                    Grade: {edu.grade}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        );
-
+case "education":
+  return resume.education?.some(
+    edu => edu.degree || edu.institute || edu.year || edu.grade
+  ) && (
+    <div className="resume-section">
+      <SectionHeader title="Education" />
+      <ul className="mb-2">
+        {resume.education.map((edu, i) => (
+          <li key={i} className="mb-2">
+            <div className="d-flex justify-content-between fw-semibold">
+              <span>{edu.degree}</span>
+              <span>{edu.year}</span>
+            </div>
+            <div>{edu.institute}</div>
+            {edu.grade && <div className="small">Grade: {edu.grade}</div>}
+          </li>
+          ))}
+      </ul>
+    </div>
+  );
+  
       /* SKILLS */
 case "skills":
   return resume.skills?.length > 0 && (
@@ -95,22 +90,22 @@ case "skills":
   );
 
 
-      /* PROJECTS */
-      case "projects":
-        return resume.projects?.some(
-          proj => proj.title || proj.description
-        ) && (
-          <div className="resume-section">
-            <SectionHeader title="Projects" />
-            {resume.projects.map((proj, i) => (
-              <div key={i} className="mb-2">
-                <strong>{proj.title}</strong>
-                {proj.technology && <> – {proj.technology}</>}
-                <p className="mb-1">{proj.description}</p>
-              </div>
-            ))}
-          </div>
-        );
+     /* PROJECTS */
+case "projects":
+  return resume.projects?.some(proj => proj.title || proj.description) && (
+    <div className="resume-section">
+      <SectionHeader title="Projects" />
+      <ul className="mb-2">
+        {resume.projects.map((proj, i) => (
+          <li key={i} className="mb-2">
+            <strong>{proj.title}</strong>
+            {proj.technology && <> – {proj.technology}</>}
+            {proj.description && <div>{proj.description}</div>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 
       /* CERTIFICATIONS */
 case "certifications":
