@@ -1,9 +1,9 @@
 function AtsTemplate({ resume, sections = [] }) {
 
-  const SectionHeader = ({ title }) => (
+  const SectionHeader = ({ title }) => ( 
     <div className="section-header mt-4 mb-1">
       <h5 className="text-primary fw-bold mb-1">{title}</h5>
-      <hr className="mt-0 mb-1 text-primary border-1 opacity-100 " />
+      <hr className="mt-0 mb-1 text-primary border-1 opacity-100" />
     </div>
   );
 
@@ -15,7 +15,9 @@ function AtsTemplate({ resume, sections = [] }) {
         return resume.summary && (
           <div className="resume-section">
             <SectionHeader title="Summary" />
-            <p align="justify">{resume.summary}</p>
+            <ul className="mb-1">
+              <li>{resume.summary}</li>
+            </ul>
           </div>
         );
 
@@ -26,156 +28,133 @@ function AtsTemplate({ resume, sections = [] }) {
         ) && (
           <div className="resume-section">
             <SectionHeader title="Work Experience" />
-            {resume.experience.map((exp, i) => (
-              <div key={i} className="mb-3">
-
-                <div className="d-flex justify-content-between fw-semibold">
-                  <span>{exp.company}</span>
-                  <span>{exp.duration}</span>
-                </div>
-
-                <div className="fst-italic mb-1">
-                  {exp.role}
-                </div>
-
-                {exp.description && (
-                  <ul className="mb-1">
-                    <li>{exp.description}</li>
-                  </ul>
-                )}
-              </div>
-            ))}
+            <ul className="mb-1">
+              {resume.experience.map((exp, i) => (
+                <li key={i} className="mb-1">
+                  <strong>{exp.role}</strong> – {exp.company} ({exp.duration})
+                  {exp.description && (
+                    <ul className="mb-0">
+                      <li>{exp.description}</li>
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
           </div>
         );
 
       /* EDUCATION */
-case "education":
-  return resume.education?.some(
-    edu => edu.degree || edu.institute || edu.year || edu.grade
-  ) && (
-    <div className="resume-section">
-      <SectionHeader title="Education" />
-      <ul className="mb-2">
-        {resume.education.map((edu, i) => (
-          <li key={i} className="mb-2">
-            <div className="d-flex justify-content-between fw-semibold">
-              <span>{edu.degree}</span>
-              <span>{edu.year}</span>
-            </div>
-            <div>{edu.institute}</div>
-            {edu.grade && <div className="small">Grade: {edu.grade}</div>}
-          </li>
-          ))}
-      </ul>
-    </div>
-  );
+      case "education":
+        return resume.education?.some(
+          edu => edu.degree || edu.institute || edu.year || edu.grade
+        ) && (
+          <div className="resume-section">
+            <SectionHeader title="Education" />
+            <ul className="mb-1">
+              {resume.education.map((edu, i) => (
+                <li key={i} className="mb-1">
+                  <strong>{edu.degree}</strong> – {edu.institute} ({edu.year})
+                  {edu.grade && <div className="small">Grade: {edu.grade}</div>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
 
-    case "skills":
-  return resume.skills?.length > 0 && (
-    <div className="resume-section">
-      <SectionHeader title="Key Skills" />
+      /* SKILLS */
+      case "skills":
+        return resume.skills?.length > 0 && (
+          <div className="resume-section">
+            <SectionHeader title="Key Skills" />
+            <ul className="mb-1">
+              {resume.skills.map((skill, index) => {
+                const colonIndex = skill.indexOf(":");
+                return (
+                  <li key={index}>
+                    {colonIndex !== -1 ? (
+                      <>
+                        <strong>{skill.slice(0, colonIndex)}:</strong>
+                        {skill.slice(colonIndex + 1)}
+                      </>
+                    ) : skill}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        );
 
-      <div className="row">
-        {resume.skills.map((skill, index) => {
-          const colonIndex = skill.indexOf(":");
-
-          return (
-            <div
-              key={index}
-              className="col-12 mb-1"
-              style={{ lineHeight: "1.3" }}
-            >
-              • {colonIndex !== -1 ? (
-                <>
-                  <strong>{skill.slice(0, colonIndex)}:</strong>
-                  {skill.slice(colonIndex + 1)}
-                </>
-              ) : (
-                skill
-              )}
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-
-
-     /* PROJECTS */
-case "projects":
-  return resume.projects?.some(proj => proj.title || proj.description) && (
-    <div className="resume-section">
-      <SectionHeader title="Projects" />
-      <ul className="mb-2">
-        {resume.projects.map((proj, i) => (
-          <li key={i} className="mb-2">
-            <strong>{proj.title}</strong>
-            {proj.technology && <> – {proj.technology}</>}
-            {proj.description && <div>{proj.description}</div>}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+      /* PROJECTS */
+      case "projects":
+        return resume.projects?.some(proj => proj.title || proj.description) && (
+          <div className="resume-section">
+            <SectionHeader title="Projects" />
+            <ul className="mb-1">
+              {resume.projects.map((proj, i) => (
+                <li key={i} className="mb-1">
+                  <strong>{proj.title}</strong>
+                  {proj.technology && <> – {proj.technology}</>}
+                  {proj.description && <div>{proj.description}</div>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
 
       /* CERTIFICATIONS */
-case "certifications":
-  return resume.certifications?.length > 0 && (
-    <div className="resume-section">
-      <SectionHeader title="Certifications & Achievements" />
-
-      <ul className="mb-1">
-        {resume.certifications
-          .filter(cert => cert.name || cert.organization)
-          .map((cert, i) => (
-            <li key={i}>
-              <strong>{cert.name}</strong>
-              {cert.organization && <> | {cert.organization}</>}
-              {cert.year && <> ({cert.year})</>}
-            </li>
-          ))}
-      </ul>
-    </div>
-  );
-
- /* CUSTOM SECTIONS */
-case "custom":
-  return resume.customSections.some(
-    sec => sec.title?.trim() || sec.content?.trim()
-  ) && (
-    <div className="resume-section">
-      {resume.customSections
-        .filter(sec => sec.title?.trim() || sec.content?.trim())
-        .map(sec => (
-          <div key={sec.id} className="mb-2">
-            <SectionHeader title={sec.title} />
-
-           {/* Render content as bullet points with bold sub-headings */}
-<ul className="mb-1">
-  {sec.content
-    .split("\n")
-    .filter(line => line.trim())
-    .map((line, index) => {
-      const colonIndex = line.indexOf(":");
-
-      return (
-        <li key={index}>
-          {colonIndex !== -1 ? (
-            <>
-              <strong>{line.slice(0, colonIndex)}:</strong>
-              {line.slice(colonIndex + 1)}
-            </>
-          ) : (
-            line
-          )}
-        </li>
-      );
-    })}
-</ul>
+      case "certifications":
+        return resume.certifications?.length > 0 && (
+          <div className="resume-section">
+            <SectionHeader title="Certifications & Achievements" />
+            <ul className="mb-1">
+              {resume.certifications
+                .filter(cert => cert.name || cert.organization)
+                .map((cert, i) => (
+                  <li key={i}>
+                    <strong>{cert.name}</strong>
+                    {cert.organization && <> | {cert.organization}</>}
+                    {cert.year && <> ({cert.year})</>}
+                  </li>
+                ))}
+            </ul>
           </div>
-        ))}
-    </div>
-  );
+        );
+
+      /* CUSTOM SECTIONS */
+      case "custom":
+        return resume.customSections?.some(
+          sec => sec.title?.trim() || sec.content?.trim()
+        ) && (
+          <div className="resume-section">
+            {resume.customSections
+              .filter(sec => sec.title?.trim() || sec.content?.trim())
+              .map(sec => (
+                <div key={sec.id} className="mb-2">
+                  <SectionHeader title={sec.title} />
+                  <ul className="mb-1">
+                    {sec.content
+                      .split("\n")
+                      .filter(line => line.trim())
+                      .map((line, index) => {
+                        const colonIndex = line.indexOf(":");
+                        return (
+                          <li key={index}>
+                            {colonIndex !== -1 ? (
+                              <>
+                                <strong>{line.slice(0, colonIndex)}:</strong>
+                                {line.slice(colonIndex + 1)}
+                              </>
+                            ) : (
+                              line
+                            )}
+                          </li>
+                        );
+                      })}
+                  </ul>
+                </div>
+              ))}
+          </div>
+        );
 
       default:
         return null;
@@ -184,60 +163,39 @@ case "custom":
 
   return (
     <div
-      className="border p-4"
+      className="border p-4 text-left"
       style={{
-     fontFamily: "Arial, Helvetica, sans-serif",
-     fontSize: "14px",
-     lineHeight: "1.6"
-}}
-
+        fontFamily: "Arial, Helvetica, sans-serif",
+        fontSize: "14px",
+        lineHeight: "1.6"
+      }}
     >
-
       {/* HEADER */}
-<div className="text-center mb-3">
+      <div className="text-center mb-3">
+        <h2 className="fw-bold text-primary mb-1" style={{ letterSpacing: "1px" }}>
+          {resume.name || "YOUR NAME"}
+        </h2>
 
-  <h2
-    className="fw-bold text-primary mb-1"
-    style={{ letterSpacing: "1px" }}
-  >
-    {resume.name || "YOUR NAME"}
-  </h2>
+        {resume.title && <div className="mb-2">{resume.title}</div>}
 
-  {resume.title && (
-    <div className="mb-2">
-      {resume.title}
-    </div>
-  )}
+        <div className="mb-1">
+          {resume.address && <span>{resume.address}</span>}
+          {resume.phone && <span> | Phone: {resume.phone}</span>}
+          {resume.email && <span> | Email: {resume.email}</span>}
+        </div>
 
-  <div className="mb-1">
-    {resume.address && <span>{resume.address}</span>}
-    {resume.phone && <span> | Phone: {resume.phone}</span>}
-    {resume.email && <span> | Email: {resume.email}</span>}
-  </div>
-
-  <div>
-    {resume.profiles?.linkedin && (
-      <span>
-        LinkedIn: {resume.profiles.linkedin}
-      </span>
-    )}
-    {resume.profiles?.github && (
-      <span>
-        {" "} | GitHub: {resume.profiles.github}
-      </span>
-    )}
-  </div>
-
-</div>
-
+        <div>
+          {resume.profiles?.linkedin && <span>LinkedIn: {resume.profiles.linkedin}</span>}
+          {resume.profiles?.github && <span> | GitHub: {resume.profiles.github}</span>}
+        </div>
+      </div>
 
       {/* REORDERABLE SECTIONS */}
       {sections.map(section => (
-        <div key={section} >
+        <div key={section}>
           {renderSection(section)}
         </div>
       ))}
-
     </div>
   );
 }
