@@ -113,23 +113,26 @@ case "skills":
         );
 
       /* CERTIFICATIONS */
-      case "certifications":
-        return resume.certifications?.some(
-          cert => cert.name || cert.organization
-        ) && (
-          <div className="resume-section">
-            <SectionHeader title="Certifications & Achievements" />
-            {resume.certifications.map((cert, i) => (
-              <div key={i} className="mb-2">
-                <strong>{cert.name}</strong>
-                {cert.organization && <> || {cert.organization}</>}
-                {cert.year && <> ({cert.year})</>}
-              </div>
-            ))}
-          </div>
-        );
+case "certifications":
+  return resume.certifications?.length > 0 && (
+    <div className="resume-section">
+      <SectionHeader title="Certifications & Achievements" />
 
-      /* CUSTOM SECTIONS */
+      <ul className="mb-1">
+        {resume.certifications
+          .filter(cert => cert.name || cert.organization)
+          .map((cert, i) => (
+            <li key={i}>
+              {cert.name}
+              {cert.organization && <> | {cert.organization}</>}
+              {cert.year && <> ({cert.year})</>}
+            </li>
+          ))}
+      </ul>
+    </div>
+  );
+
+      
  /* CUSTOM SECTIONS */
 case "custom":
   return resume.customSections.some(
