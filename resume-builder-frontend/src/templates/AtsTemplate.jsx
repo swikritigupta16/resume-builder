@@ -69,25 +69,34 @@ case "education":
       </ul>
     </div>
   );
-  
-      /* SKILLS */
+
+     /* SKILLS */
 case "skills":
   return resume.skills?.length > 0 && (
     <div className="resume-section">
       <SectionHeader title="Key Skills" />
 
       <div className="row">
-        {resume.skills.map((skill, index) => (
-          <div
-            key={index}
-            className="col-4 col-md-3 mb-2"
-          >
-            • {skill}
-          </div>
-        ))}
+        {resume.skills.map((skill, index) => {
+          const colonIndex = skill.indexOf(":");
+
+          return (
+            <div key={index} className="col-12 col-md-6 mb-2">
+              • {colonIndex !== -1 ? (
+                <>
+                  <strong>{skill.slice(0, colonIndex)}:</strong>
+                  {skill.slice(colonIndex + 1)}
+                </>
+              ) : (
+                skill
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
+
 
 
      /* PROJECTS */
@@ -118,7 +127,7 @@ case "certifications":
           .filter(cert => cert.name || cert.organization)
           .map((cert, i) => (
             <li key={i}>
-              {cert.name}
+              <strong>{cert.name}</strong>
               {cert.organization && <> | {cert.organization}</>}
               {cert.year && <> ({cert.year})</>}
             </li>
@@ -127,7 +136,6 @@ case "certifications":
     </div>
   );
 
-      
  /* CUSTOM SECTIONS */
 case "custom":
   return resume.customSections.some(
@@ -140,15 +148,28 @@ case "custom":
           <div key={sec.id} className="mb-2">
             <SectionHeader title={sec.title} />
 
-            {/* Render content as bullet points */}
-            <ul className="mb-1">
-              {sec.content
-                .split("\n")
-                .filter(line => line.trim())
-                .map((line, index) => (
-                  <li key={index}>{line}</li>
-                ))}
-            </ul>
+           {/* Render content as bullet points with bold sub-headings */}
+<ul className="mb-1">
+  {sec.content
+    .split("\n")
+    .filter(line => line.trim())
+    .map((line, index) => {
+      const colonIndex = line.indexOf(":");
+
+      return (
+        <li key={index}>
+          {colonIndex !== -1 ? (
+            <>
+              <strong>{line.slice(0, colonIndex)}:</strong>
+              {line.slice(colonIndex + 1)}
+            </>
+          ) : (
+            line
+          )}
+        </li>
+      );
+    })}
+</ul>
           </div>
         ))}
     </div>
