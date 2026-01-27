@@ -153,21 +153,28 @@ const AtsTemplatePDF = ({ resume }) => {
   </View>
 )}
 
-        {/* PROJECTS */}
-        {projects.length > 0 && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Projects</Text>
-            <View style={styles.divider} />
-            {projects.map((proj, i) => (
-              <View key={i} style={{ marginBottom: 6 }}>
-                <Text style={styles.bold}>
-                  • {proj.title} {proj.technology ? `– ${proj.technology}` : ""}
-                </Text>
-                {proj.description && <Text style={styles.text}>{proj.description}</Text>}
-              </View>
-            ))}
-          </View>
-        )}
+       {/* PROJECTS */}
+{projects.length > 0 && (
+  <View style={styles.section}>
+    <Text style={styles.sectionTitle}>Projects</Text>
+    <View style={styles.divider} />
+    {projects.map((proj, i) => (
+      <View key={i} style={{ marginBottom: 6 }}>
+        <View style={{ flexDirection: "row", marginBottom: 2 }}>
+          {/* Bullet */}
+          <Text style={{ width: 10 }}>•</Text>
+          {/* Project title in bold, tech in normal */}
+          <Text style={{ flex: 1 }}>
+            <Text style={styles.bold}>{proj.title}</Text>
+            {proj.technology ? ` | ${proj.technology}` : ""}
+          </Text>
+        </View>
+        {proj.description && <Text style={styles.text}>{proj.description}</Text>}
+      </View>
+    ))}
+  </View>
+)}
+
 
        {/* CERTIFICATIONS */}
 {certifications.length > 0 && (
