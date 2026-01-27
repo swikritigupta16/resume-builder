@@ -106,7 +106,7 @@ case "projects":
           <div style={{ display: "flex", alignItems: "baseline" }}>
             <span>•</span>&nbsp;
             <strong>{proj.title}</strong>
-            {proj.technology && <> – {proj.technology}</>}
+            {proj.technology && <> | {proj.technology}</>}
           </div>
           {proj.description && <div>{proj.description}</div>}
         </div>
