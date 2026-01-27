@@ -117,34 +117,42 @@ case "projects":
 
       /* CERTIFICATIONS */
     
-case "certifications":
-  return resume.certifications?.length > 0 && (
+case "certifications": {
+  const validCertifications = (resume.certifications || []).filter(
+    cert =>
+      cert?.name?.trim() ||
+      cert?.organization?.trim() ||
+      cert?.year?.toString().trim()
+  );
+
+  if (validCertifications.length === 0) return null; // ✅ KEY FIX
+
+  return (
     <div className="resume-section">
       <SectionHeader title="Certifications & Achievements" />
       <div>
-        {resume.certifications
-          .filter(cert => cert.name || cert.organization)
-          .map((cert, index) => (
-            <div
-              key={index}
-              style={{
-                display: "flex",
-                alignItems: "flex-start",
-                marginBottom: "4px",
-                lineHeight: "1.4"
-              }}
-            >
-              <span style={{ marginRight: "8px", lineHeight: "1.4" }}>•</span>
-              <div style={{ flex: 1 }}>
-                <strong>{cert.name}</strong>
-                {cert.organization && <> | {cert.organization}</>}
-                {cert.year && <> ({cert.year})</>}
-              </div>
+        {validCertifications.map((cert, index) => (
+          <div
+            key={index}
+            style={{
+              display: "flex",
+              alignItems: "flex-start",
+              marginBottom: "4px",
+              lineHeight: "1.4"
+            }}
+          >
+            <span style={{ marginRight: "8px", lineHeight: "1.4" }}>•</span>
+            <div style={{ flex: 1 }}>
+              {cert.name?.trim() && <strong>{cert.name}</strong>}
+              {cert.organization?.trim() && <> | {cert.organization}</>}
+              {cert.year?.toString().trim() && <> ({cert.year})</>}
             </div>
-          ))}
+          </div>
+        ))}
       </div>
     </div>
   );
+}
 
 
       /* CUSTOM SECTIONS */

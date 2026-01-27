@@ -10,6 +10,10 @@ import { rewriteResumeAI } from "../services/aiService";
 import { buildAIPayload } from "../utils/aiPayload";
 import AIRewriteModal from "../components/AIRewriteModal";
 
+import { BlobProvider } from "@react-pdf/renderer";
+import AtsTemplatePDF from "../pdf/AtsTemplatePDF";
+
+
 
 //Local Storage Key
 const STORAGE_KEY = "resume_builder_data";
@@ -676,7 +680,7 @@ const handleAIRewrite = async () => {
     <div className="col-md-6 vh-100 overflow-auto">
     <div className="preview-sticky">
 
-  {/* ✅ HEADING */}
+  {/* HEADING */}
     <h5 className="fw-semibold mb-1">
       Select Resume Template:
     </h5>
@@ -713,12 +717,45 @@ const handleAIRewrite = async () => {
 </button>
 
 {/* download button */}
-  <button
-    className="btn btn-success mt-3 w-100"
-    onClick={downloadPDF}
-  >
-    Download Resume as PDF
+  
+
+  <span className="d-flex justify-content-center align-items-center gap-3 mt-4 flex-wrap">
+
+  <button type= "button" className="btn btn-success" onClick={downloadPDF}>
+    Download PDF 
   </button>
+
+ <BlobProvider
+  document={<AtsTemplatePDF resume={resume} />}
+>
+  {({ blob, loading, error }) => (
+    <button
+      type="button"
+      className="btn btn-success"
+      disabled={loading}
+      onClick={() => {
+        if (!blob) return;
+
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "ATS_Resume.pdf";
+        a.click();
+        URL.revokeObjectURL(url);
+      }}
+    >
+      {loading
+        ? "Generating ATS PDF..."
+        : error
+        ? "PDF Error"
+        : "Download ATS PDF"}
+    </button>
+  )}
+</BlobProvider>
+
+
+</span>
+
 
 
 {/* Clear resume button*/}
