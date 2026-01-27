@@ -144,7 +144,7 @@ case "certifications": {
             <span style={{ marginRight: "8px", lineHeight: "1.4" }}>•</span>
             <div style={{ flex: 1 }}>
               {cert.name?.trim() && <strong>{cert.name}</strong>}
-              {cert.organization?.trim() && <> | {cert.organization}</>}
+              {cert.organization?.trim() && <>, {cert.organization}</>}
               {cert.year?.toString().trim() && <> ({cert.year})</>}
             </div>
           </div>

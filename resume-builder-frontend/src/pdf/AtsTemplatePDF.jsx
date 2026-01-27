@@ -176,28 +176,31 @@ const AtsTemplatePDF = ({ resume }) => {
 )}
 
 
-       {/* CERTIFICATIONS */}
+      {/* CERTIFICATIONS */}
 {certifications.length > 0 && (
   <View style={styles.section}>
     <Text style={styles.sectionTitle}>Certifications & Achievements</Text>
     <View style={styles.divider} />
+
     {certifications
-      .filter(cert => cert.name || cert.organization || cert.year) // <-- only non-empty
-      .map((cert, i) => {
-        const parts = [
-          cert.name ? <Text style={styles.bold}>{cert.name}</Text> : "",
-          cert.organization ? ` | ${cert.organization}` : "",
-          cert.year ? ` (${cert.year})` : "",
-        ];
-        return (
-          <View key={i} style={{ flexDirection: "row", marginBottom: 2 }}>
-            <Text style={{ width: 10 }}>•</Text>
-            <Text style={{ flex: 1 }}>{parts}</Text>
-          </View>
-        );
-      })}
+      .filter(cert => cert.name || cert.organization || cert.year)
+      .map((cert, i) => (
+        <View key={i} style={{ flexDirection: "row", marginBottom: 2 }}>
+          <Text style={{ width: 10 }}>•</Text>
+
+          <Text style={{ flex: 1 }}>
+            {cert.name && (
+              <Text style={styles.bold}>{cert.name}</Text>
+            )}
+            {cert.organization && `, ${cert.organization}`}
+            {cert.year && ` (${cert.year})`}
+          </Text>
+        </View>
+      ))}
   </View>
 )}
+
+
 
 
       {/* CUSTOM SECTIONS */}
