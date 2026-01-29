@@ -51,7 +51,7 @@ function AtsTemplate({ resume, sections = [] }) {
           <div className="resume-section">
             <SectionHeader title="Work Experience" />
             {renderBullets(
-              resume.experience.map(exp => {
+              resume.experience.map(exp => {   // combining multiple fields into one ats friendly line
                 let line = "";
                 if (exp.role) line += `${exp.role}`;
                 if (exp.company) line += line ? ` – ${exp.company}` : exp.company;
@@ -86,7 +86,6 @@ case "education":
   );
 
 
-
       /* SKILLS */
       case "skills":
         return resume.skills?.length > 0 && (
@@ -106,7 +105,7 @@ case "projects":
           <div style={{ display: "flex", alignItems: "baseline" }}>
             <span>•</span>&nbsp;
             <strong>{proj.title}</strong>
-            {proj.technology && <> | {proj.technology}</>}
+            {proj.technology && <>  |   {proj.technology}</>}
           </div>
           {proj.description && <div>{proj.description}</div>}
         </div>
@@ -125,7 +124,7 @@ case "certifications": {
       cert?.year?.toString().trim()
   );
 
-  if (validCertifications.length === 0) return null; // ✅ KEY FIX
+  if (validCertifications.length === 0) return null; 
 
   return (
     <div className="resume-section">
@@ -200,7 +199,7 @@ case "certifications": {
 
   {/* Address / Phone / Email */}
   <div className="d-flex flex-wrap justify-content-center mb-1">
-    {resume.address && <div className="me-3">{resume.address}</div>}
+    {resume.address && <div className="me-3">{resume.address}</div>}    {/*me - margin-end: right side spacing after content */}  
     {resume.phone && <div className="me-3">Phone: {resume.phone}</div>}
     {resume.email && <div className="me-3">Email: {resume.email}</div>}
   </div>

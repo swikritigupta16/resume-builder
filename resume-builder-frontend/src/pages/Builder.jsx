@@ -22,6 +22,7 @@ const SECTION_KEY = "resume_sections";
 
 const initialResume = {
    name: "",  
+   title: "",   
     email: "",
     phone: "",
     address : "",
@@ -221,6 +222,16 @@ const handleAIRewrite = async () => {
               setResume({ ...resume, name: e.target.value })
             }
           />
+
+  <input
+    type="text"
+    className="form-control mb-3"
+    placeholder = "Professional Title"
+    value={resume.title}
+    onChange={(e) =>
+      setResume({ ...resume, title: e.target.value })
+    }
+  />
 
           <input
             className="form-control mb-3"
@@ -721,14 +732,14 @@ const handleAIRewrite = async () => {
 
   <span className="d-flex justify-content-center align-items-center gap-3 mt-4 flex-wrap">
 
-  <button type= "button" className="btn btn-success" onClick={downloadPDF}>
+  <button type= "button" className="btn btn-success" onClick={downloadPDF}>    
     Download PDF 
   </button>
 
- <BlobProvider
+ <BlobProvider                       //component that generates a PDF document on the fly and gives you access to its blob data and url in a declarative way. / returns blob object instead of auto downloading it
   document={<AtsTemplatePDF resume={resume} />}
 >
-  {({ blob, loading, error }) => (
+  {({ blob, loading, error }) => (                      //React render-prop pattern , blob- final pdf file
     <button
       type="button"
       className="btn btn-success"
@@ -736,13 +747,13 @@ const handleAIRewrite = async () => {
       onClick={() => {
         if (!blob) return;
 
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "ATS_Resume.pdf";
+        const url = URL.createObjectURL(blob);        //  Converts blob into a downloadable URL
+        const a = document.createElement("a");       //  Creates a hidden anchor tag
+        a.href = url;                                // Triggers browser download
+        a.download = "ATS_Resume.pdf";            
         a.click();
-        URL.revokeObjectURL(url);
-      }}
+        URL.revokeObjectURL(url);                    //frees memory
+      }} 
     >
       {loading
         ? "Generating ATS PDF..."

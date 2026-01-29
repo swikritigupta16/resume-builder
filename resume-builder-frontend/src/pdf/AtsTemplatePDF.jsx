@@ -53,11 +53,11 @@ const styles = StyleSheet.create({
 });
 
 /* ================== COMPONENT ================== */
-const AtsTemplatePDF = ({ resume }) => {
+const AtsTemplatePDF = ({ resume }) => {    //functional component for ats pdf generation
   if (!resume) return null;
 
-  const {
-    name = "",
+  const {                          //extract resume fields, provide default values to avoid crashes
+    name = "",              
     title = "",
     phone = "",
     email = "",
@@ -77,7 +77,7 @@ const AtsTemplatePDF = ({ resume }) => {
 
         {/* HEADER */}
         <Text style={styles.name}>{name}</Text>
-        {title && <Text style={styles.headerLine}>{title}</Text>}
+        {title && <Text style={styles.headerLine}>{title}</Text>}   {/* job title */}
 
         {(address || phone || email) && (
           <Text style={styles.headerLine}>

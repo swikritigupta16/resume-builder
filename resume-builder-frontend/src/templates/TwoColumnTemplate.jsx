@@ -128,6 +128,8 @@ function TwoColumnModernTemplate({ resume, sections = [] }) {
         {resume.name || "Your Name"}
       </h2>
 
+      <h6 className="mb-2">{resume.title}</h6>
+
       <span className="mb-2 text-break">
         {resume.email}
         {resume.phone && <> | {resume.phone}</>}
