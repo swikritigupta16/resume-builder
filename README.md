@@ -29,3 +29,7 @@ A full-stack resume builder that enables users to create, customize, preview, an
 - Integrates AI features in a practical user workflow
 - Fully deployed and production-ready
 
+## Future Enhancements
+
+- Login & Signup Authentication
+- Logout Functionality
