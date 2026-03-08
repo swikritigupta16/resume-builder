@@ -13,6 +13,9 @@ import AIRewriteModal from "../components/AIRewriteModal";
 import { BlobProvider } from "@react-pdf/renderer";
 import AtsTemplatePDF from "../pdf/AtsTemplatePDF";
 
+import { useNavigate } from "react-router-dom";
+
+
 
 
 //Local Storage Key
@@ -49,6 +52,28 @@ const initialResume = {
 
 
  function Builder({ darkMode, setDarkMode }) {
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+
+  localStorage.removeItem("token");
+
+  navigate("/login");
+
+};
+
+
+  useEffect(() => {
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      navigate("/login");
+    }
+
+  }, [navigate]); 
+
   
   const resumeRef = useRef();
 
@@ -193,15 +218,27 @@ const handleAIRewrite = async () => {
     
 <div className="container mt-4">
 
- {/* DARK MODE TOGGLE */}
-    <div className="d-flex justify-content-end mb-3">
-      <button
-        className="btn btn-sm btn-outline-secondary"
-        onClick={() => setDarkMode(!darkMode)}
-      >
-        {darkMode ? "Light Mode ☀️" : "Dark Mode 🌙"}
+    {/* TOP BAR */}
+  <div className="d-flex justify-content-between align-items-center mb-3">
+
+    {/* DARK MODE BUTTON (LEFT) */}
+    <button
+      className="btn btn-sm btn-outline-secondary"
+      onClick={() => setDarkMode(!darkMode)}
+    >
+      {darkMode ? "Light Mode ☀️" : "Dark Mode 🌙"}
+    </button>
+
+    {/* LOGOUT BUTTON (RIGHT) */}
+    <button
+      onClick={handleLogout}
+      className="btn btn-danger"
+    >
+      Logout
+
       </button>
-    </div>
+
+  </div>
 
 
   {/* FORM SECTION */} 
@@ -690,6 +727,8 @@ const handleAIRewrite = async () => {
 {/* PREVIEW SECTION */}
     <div className="col-md-6 vh-100 overflow-auto">
     <div className="preview-sticky">
+
+      
 
   {/* HEADING */}
     <h5 className="fw-semibold mb-1">

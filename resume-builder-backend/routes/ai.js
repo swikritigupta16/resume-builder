@@ -12,7 +12,7 @@ router.post("/rewrite", (req, res) => {
     experience: Array.isArray(experience)
       ? experience.map(exp => {
           if (!exp.description?.trim()) {
-            return exp; // ✅ NO rewrite
+            return exp; //  NO rewrite
           }
 
           return {
@@ -26,7 +26,7 @@ router.post("/rewrite", (req, res) => {
     projects: Array.isArray(projects)
       ? projects.map(proj => {
           if (!proj.description?.trim()) {
-            return proj; // ✅ NO rewrite
+            return proj; //  NO rewrite
           }
 
           return {
@@ -40,7 +40,7 @@ router.post("/rewrite", (req, res) => {
     customSections: Array.isArray(customSections)
       ? customSections.map(sec => {
           if (!sec.content?.trim()) {
-            return sec; // ✅ NO rewrite
+            return sec; //  NO rewrite
           }
 
           return {

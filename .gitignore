@@ -25,3 +25,12 @@ yarn-error.log*
 .env
 ".env" 
 ".env" 
+
+node_modules
+.env
+build
+dist
+
+node_modules
+resume-builder-backend/node_modules
+.env
