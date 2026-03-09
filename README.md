@@ -5,12 +5,14 @@ A full-stack resume builder that enables users to create, customize, preview, an
 
 - Frontend: React.js, HTML, CSS, Bootstrap
 - Backend: Node.js, Express.js
+- Database: MongoDB Atlas
 - PDF Generation: html2pdf.js, @react-pdf/renderer
 - Utilities: dnd-kit (drag & drop)
 - Deployment: Vercel (Frontend), Render (Backend)
 
 ## Features
 
+- Login/SignUp User
 - Interactive resume form with real-time preview
 - Multiple professional resume templates
 - Drag-and-drop section reordering using dnd-kit
@@ -20,6 +22,7 @@ A full-stack resume builder that enables users to create, customize, preview, an
    1. Normal / Design-based templates via html2pdf.js
    2. ATS-friendly template via @react-pdf/renderer
 - AI Resume Rewrite: Automatically enhance summary, description of experience, projects, and custom sections with AI-powered rewriting; preview changes before applying
+- Logout Functionality
 
  ## Why This Project
 
@@ -29,7 +32,4 @@ A full-stack resume builder that enables users to create, customize, preview, an
 - Integrates AI features in a practical user workflow
 - Fully deployed and production-ready
 
-## Future Enhancements
 
-- Login & Signup Authentication
-- Logout Functionality
