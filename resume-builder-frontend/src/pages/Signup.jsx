@@ -14,14 +14,16 @@ function Signup() {
 
     try {
 
-      await axios.post(
-        `${process.env.REACT_APP_API_URL}/auth/signup`,
-        {
-          name,
-          email,
-          password
-        }
-      );
+     const API =
+  process.env.NODE_ENV === "production"
+    ? "https://resume-builder-8d5l.onrender.com/api"
+    : "http://localhost:5000/api";
+
+await axios.post(`${API}/auth/signup`, {
+  name,
+  email,
+  password
+});
 
       alert("Signup successful!");
 

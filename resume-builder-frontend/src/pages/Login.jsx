@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import API from "../utils/api";
+
 
 
 function Login() {
@@ -18,13 +18,15 @@ function Login() {
 
     try {
 
-      const res = await axios.post(
-        `${API}/auth/login`,
-        {
-          email,
-          password
-        }
-      );
+      const API =
+  process.env.NODE_ENV === "production"
+    ? "https://resume-builder-8d5l.onrender.com/api"
+    : "http://localhost:5000/api";
+
+const res = await axios.post(`${API}/auth/login`, {
+  email,
+  password
+});
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
